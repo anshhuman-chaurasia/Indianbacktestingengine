@@ -1,0 +1,6 @@
+pandas
+pyarrow
+jugaad-data
+streamlit
+plotly
+numpy
