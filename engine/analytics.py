@@ -40,7 +40,13 @@ def calculate_cagr(equity_curve):
         return 0.0
 
     years = days / 365.25
-    total_return = equity_curve.iloc[-1] / equity_curve.iloc[0]
+    # The first value in equity_curve might be NaN due to pct_change.
+    # Use 1.0 as the base if iloc[0] is NaN, or find the first valid index.
+    start_val = equity_curve.bfill().iloc[0]
+    if pd.isna(start_val) or start_val == 0:
+        start_val = 1.0
+
+    total_return = equity_curve.iloc[-1] / start_val
 
     # Handle edge case where total_return is negative or 0 to avoid complex numbers
     if total_return <= 0:
